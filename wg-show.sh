@@ -16,7 +16,7 @@ fi
 interface="${1:-wg0}"
 conf_file="/etc/wireguard/$interface.conf"
 
-if [ ! -f conf_file ]; then
+if [ ! -f $conf_file ]; then
  echo "Interface $interface not configured"
  exit 1
 fi
