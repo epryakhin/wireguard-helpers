@@ -1,6 +1,13 @@
+#!/bin/bash
+
+# Require root to change wg-related settings
+if ! [ "$(id -u)" = "0" ]; then
+    echo "ERROR: sudo is required to configure WireGuard clients"
+    exit 1
+fi
+
 # update server first
-apt update
-apt upgrade
+apt update && apt upgrade
 
 # --- create new user ---
 # read user name and password from user input
