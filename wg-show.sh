@@ -9,21 +9,21 @@ fi
 # Help and basic error checking
 if [ $# -ge 1 -a "$1" == "--help" ]; then
         echo "Usage:"
-        echo "$(basename "$0") <interface:[wg0]>"
+        echo "$(basename "$0") <iface:[wg0]>"
         exit 1
 fi
 
-interface="${1:-wg0}"
-conf_file="/etc/wireguard/$interface.conf"
+iface="${1:-wg0}"
+conf_file="/etc/wireguard/$iface.conf"
 
 if [ ! -f $conf_file ]; then
- echo "Interface $interface not configured"
+ echo "Interface $iface not configured"
  exit 1
 fi
 
 conf=$(< $conf_file)
 
-wg show "$interface" | while read -r line
+wg show "$iface" | while read -r line
 do
  res=$(echo "$line" | grep peer)
  if [ -z "$res" ]; then
