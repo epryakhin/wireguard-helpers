@@ -2,8 +2,6 @@
 
 set -e
 
-. script.conf
-
 # Require root to change wg-related settings
 if ! [ "$(id -u)" = "0" ]; then
     echo "Error: sudo is required to configure WireGuard clients"
