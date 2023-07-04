@@ -15,9 +15,6 @@ if [ $# -ne 4 ] || [ $# -gt 1 -a "$1" == "--help" ]; then
 	exit 1
 fi
 
-# Pull server pubkey from file
-server_pub=$(< "$server_pub_file")
-
 # Params
 iface="$1"
 user="$2"
@@ -28,6 +25,9 @@ iface_conf="/etc/wireguard/${iface}.conf"
 script_conf="/etc/wireguard/${iface}/${iface}.client"
 
 . "${script_conf}"
+
+# Pull server pubkey from file
+server_pub=$(< "$server_key_pub")
 
 # Generate and store keypair
 priv=$(wg genkey)
@@ -43,7 +43,7 @@ if grep -q "$client_ipv4" "$iface_conf"; then
 fi
 
 # Add peer to config file (blank line is on purpose)
-cat >> $config_file <<-EOM
+cat >> $iface_conf <<-EOM
 
 [Peer]
 # $user-$device
@@ -59,7 +59,7 @@ Address = $client_ipv4
 DNS = $dns_servers
 
 [Peer]
-PublicKey = $server_key_pub
+PublicKey = $server_pub
 AllowedIPs = $allowed_ips
 Endpoint = $server_domain:$server_port
 PersistentKeepalive = 25
@@ -78,9 +78,9 @@ fi
 
 # Restart service
 echo ""
-read -p "Restart 'wg-quick@$wg_iface' ? [y]: " confirm
+read -p "Restart 'wg-quick@$iface' ? [y]: " confirm
 if [ $confirm == "y" ]; then
-	systemctl restart "wg-quick@$wg_iface.service"
+	systemctl restart "wg-quick@$iface"
 else
-	echo "WARNING: 'wg-quick@$wg_iface.service' will need to be restarted before the new client can connect"
+	echo "WARNING: 'wg-quick@$iface' will need to be restarted before the new client can connect"
 fi
