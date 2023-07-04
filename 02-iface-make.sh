@@ -56,9 +56,7 @@ EOM
 ### generate conf for 03-client-make.sh
 client_conf_file="$iface_path/${iface}.client"
 cat >> $client_conf_file <<-EOM
- wg_iface="$iface"
- config_file="$conf_file"
- server_pub_file="$key_path_pub"
+ server_key_pub="$key_path_pub"
  server_domain="$ip"
  server_port="$port"
  ipv4_prefix="$ipv4_prefix"
