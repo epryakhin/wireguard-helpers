@@ -46,7 +46,7 @@ fi
 cat >> $iface_conf <<-EOM
 
 [Peer]
-# $user-$device
+# $user.$device
 PublicKey = $pub
 AllowedIPs = $client_ipv4
 EOM
