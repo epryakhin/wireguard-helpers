@@ -51,6 +51,9 @@ cat >> $conf_file <<-EOM
  PreDown = ufw route delete allow in on $iface_default out on $iface
  PreDown = iptables -t nat -D POSTROUTING -o $iface_default -j MASQUERADE
  PreDown = ip6tables -t nat -D POSTROUTING -o $iface_default -j MASQUERADE
+ # packet forwarding
+ PreUp = sysctl -w net.ipv4.ip_forward=1
+
 EOM
 
 ### generate conf for 03-client-make.sh
