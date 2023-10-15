@@ -68,3 +68,4 @@ EOM
 ### allow wg port on fw and start
 ufw allow "${port}/udp"
 systemctl start "wg-quick@${iface}.service"
+systemctl enable "wg-quick@${iface}.service"
