@@ -27,10 +27,6 @@ sed "s/#Port 22/Port $port/" /etc/ssh/sshd_config
 sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
 sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
-# copy public key
-mkdir "/home/$user/.ssh/"
-cp key "/home/$user/.ssh/authorized_keys"
-chown -R "$user":"$user" "/home/$user/.ssh"
 # restart sshd.service
 read -p "SSH service will be restarted on port [$port] with no password login and no root login. Are use sure? [Yy]: " -n 1 -r
 echo
